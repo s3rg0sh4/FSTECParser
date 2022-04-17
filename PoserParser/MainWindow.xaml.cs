@@ -220,7 +220,9 @@ namespace PoserParser
                 save.ShowDialog();
 				if ((myStream = save.OpenFile()) != null)
 					myStream.Close();
-
+                FileInfo finfo = new FileInfo(@"thrlist.xlsx");
+                if (finfo.Exists)
+                    finfo.CopyTo(save.FileName, true);
             }
 			catch (Exception) { }
 		} 

@@ -31,6 +31,11 @@
                 && IntegrityCheck == db.IntegrityCheck
                 && AccessibiltiyCheck == db.AccessibiltiyCheck;
         }
+
+        public string ToCsv()
+		{            
+            return $"{ID};{Name};{Description}";
+		}
     }
 
 
