@@ -17,6 +17,7 @@ using System.IO;
 using PoserParser;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.Win32;
+using DocumentFormat.OpenXml.InkML;
 
 namespace PoserParser
 {
@@ -41,14 +42,24 @@ namespace PoserParser
             }
             catch (Exception)
             {//В случае его отсутствия – программа должна оповестить пользователя о том, что
-             //файла с локальной базой не существует, и предложить ему провести первичную загрузку данных.
-                new WebClient().DownloadFile(address, "thrlist.xlsx");
-                WsParse(new XLWorkbook(@"thrlist.xlsx").Worksheet("Sheet"), ref dataBase.shortDB, ref dataBase.fullDB);
+			 //файла с локальной базой не существует, и предложить ему провести первичную загрузку данных.
+
+                var result = MessageBox.Show($"Файл с локальной базой не существует, желаете ли вы произвести первичную загрузку данных", 
+                    "База данных", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {
+                    new WebClient().DownloadFile(address, "thrlist.xlsx");
+                    WsParse(new XLWorkbook(@"thrlist.xlsx").Worksheet("Sheet"), ref dataBase.shortDB, ref dataBase.fullDB);
+                    this.cview = new PagingCollectionView(dataBase.shortDB, elmCount);
+                    this.DataContext = this.cview;
+                    InitializeComponent();
+                }
+				else
+				{
+                    Application.Current.Shutdown();
+				}
             }
 
-            this.cview = new PagingCollectionView(dataBase.shortDB, elmCount);
-            this.DataContext = this.cview;
-            InitializeComponent();
         }
 
         private void WsParse(IXLWorksheet ws, ref Dictionary<int, UBIShort> dicShort, ref Dictionary<int, UBIFull> dic)
@@ -209,7 +220,8 @@ namespace PoserParser
                 save.ShowDialog();
 				if ((myStream = save.OpenFile()) != null)
 					myStream.Close();
-			}
+
+            }
 			catch (Exception) { }
 		} 
     }

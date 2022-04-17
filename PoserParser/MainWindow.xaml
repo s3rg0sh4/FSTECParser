@@ -33,7 +33,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="Обновление базы данных" HorizontalAlignment="Center" Width="250" Height="30" Grid.Row="2" Click="Button_UPD"/>
-        <ComboBox HorizontalAlignment="Left" Width="50" Height="30" Grid.Row="2" SelectionChanged="ComboBox_SelectionChanged" SelectedIndex="0" IsReadOnly="True" Margin="10,0,0,0">
+        <ComboBox HorizontalAlignment="Left" Width="50" Height="30" Grid.Row="2" SelectionChanged="ComboBox_SelectionChanged" IsReadOnly="True" Margin="10,0,0,0">
             <ComboBoxItem>15</ComboBoxItem>
             <ComboBoxItem>30</ComboBoxItem>
             <ComboBoxItem>45</ComboBoxItem>
